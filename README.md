@@ -11,6 +11,7 @@
 source .env
 docker-compose build
 docker-compose up -d
+./supervisor/supervisor.sh
 ```
 
 the application will be accessible via VPN on https://$WEBUI_IP/ (check the .env file for the WEBUI )
