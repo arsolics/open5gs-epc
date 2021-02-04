@@ -5,6 +5,7 @@
 
 fs=""
 
+echo "This will sleep for 120 seconds, take a break."
 sleep 120
 for s in $OVPN_ROUTED_SERVICES
 do
