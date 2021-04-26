@@ -34,6 +34,7 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 cp /mnt/mme/mme.yaml install/etc/open5gs
 sed -i 's|MNC|'$MNC'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MCC|'$MCC'|g' install/etc/open5gs/mme.yaml
+sed -i 's|TAC|'$TAC'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IP|'$IP_ADDR'|g' install/etc/open5gs/mme.yaml
 sed -i 's|MME_IF|'$IF_NAME'|g' install/etc/open5gs/mme.yaml
 sed -i 's|HSS_IP|'$HSS_IP'|g' install/etc/open5gs/mme.yaml
