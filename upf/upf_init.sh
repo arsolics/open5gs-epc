@@ -33,11 +33,15 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range 192.168.100.0/24 --ipv6_range fd84:6aea:c36e:2b69::/64
 python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range 192.168.101.0/24 --ipv6_range fd1f:76f3:da9b:0101::/64 --nat_rule 'no'
+python3 /mnt/upf/tun_if.py --tun_ifname ogstun3 --ipv4_range 192.168.102.0/24 --ipv6_range fd84:6aea:c36f:2b69::/64 --nat_rule 'no'
 
 cp /mnt/upf/upf.yaml install/etc/open5gs
 sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
+sed -i 's|INTERNET_APN|'$INTERNET_APN'|g' install/etc/open5gs/upf.yaml
+sed -i 's|IMS_APN|'$IMS_APN'|g' install/etc/open5gs/upf.yaml
+sed -i 's|OUR_APN|'$OUR_APN'|g' install/etc/open5gs/upf.yaml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

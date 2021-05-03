@@ -40,6 +40,9 @@ sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCRF_IP|'$PCRF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/smf.yaml
+sed -i 's|INTERNET_APN|'$INTERNET_APN'|g' install/etc/open5gs/smf.yaml
+sed -i 's|IMS_APN|'$IMS_APN'|g' install/etc/open5gs/smf.yaml
+sed -i 's|OUR_APN|'$OUR_APN'|g' install/etc/open5gs/smf.yaml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

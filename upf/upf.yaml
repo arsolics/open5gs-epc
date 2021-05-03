@@ -12,17 +12,23 @@ upf:
       - addr: UPF_IP
         advertise_addr: UPF_ADVERTISE_IP
     pdn:
+      - addr: 192.168.102.1/24
+        dev: ogstun3
+        apn: OUR_APN
+      - addr: fd84:6aea:c36f:2b69::/64
+        dev: ogstun3
+        apn: OUR_APN
       - addr: 192.168.100.1/24
         dev: ogstun
-        apn: internet
+        apn: INTERNET_APN
       - addr: fd84:6aea:c36e:2b69::/64
         dev: ogstun
-        apn: internet
+        apn: INTERNET_APN
       - addr: 192.168.101.1/24
-        apn: ims
+        apn: IMS_APN
         dev: ogstun2
       - addr: fd1f:76f3:da9b:0101::/64
-        apn: ims
+        apn: IMS_APN
         dev: ogstun2
 
 smf:
