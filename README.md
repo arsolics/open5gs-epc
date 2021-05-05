@@ -32,3 +32,6 @@ docker-compose exec openvpn-as ovpn_revokeclient CLIENTNAME
 ```bash
 docker-compose stop openvpn-as ; docker-compose rm -v  openvpn-as ; docker volume rm docker_open5gs_ovpndata ; docker-compose up -d
 ```
+* initepc.sh pulls the images and starts the whole thing
+
+* mongoinit.sh reinitialises mongo database
