@@ -9,5 +9,5 @@ sed -i "s/MNC=.*$/MNC=$MNC/" "$ENB"
 sed -i "s/TAC=.*$/TAC=$TAC/" "$ENB"
 sed -i "s/local=.*$/local=100.77.0.1/" "$ENB"
 sed -i "s/address=.*$/address=$MME_IP/" "$ENB"
-sed -i "s/addr4=.*$/addr4=$MME_IP/" "$GTP"
+sed -i "s/addr4=.*$/addr4=100.77.0.1/" "$GTP"
 service yate-sdr restart

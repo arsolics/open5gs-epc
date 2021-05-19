@@ -48,8 +48,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     expose:
       - "3000/tcp"
-    ports:
-      - "3000:3000/tcp"
+        #ports:
+            #  - "3000:3000/tcp"
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
