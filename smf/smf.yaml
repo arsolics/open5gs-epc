@@ -35,24 +35,13 @@ smf:
       - addr: SMF_IP
       - addr: ::1
     pdn:
-      - addr: 192.168.102.1/24
-        apn: OUR_APN
-        dev: ogstun3
-      - addr: fd84:6aea:c36f:2b69::/64
-        apn: OUR_APN
-        dev: ogstun3
-      - addr: 192.168.100.1/24
-        apn: INTERNET_APN
-        dev: ogstun
-      - addr: fd84:6aea:c36e:2b69::/64
-        dev: ogstun
-        apn: INTERNET_APN
       - addr: 192.168.101.1/24
         apn: IMS_APN
         dev: ogstun2
       - addr: fd1f:76f3:da9b:0101::/64
         apn: IMS_APN
         dev: ogstun2
+APNS
     dns:
       - 8.8.8.8
       - 8.8.4.4

@@ -40,9 +40,31 @@ sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCRF_IP|'$PCRF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/smf.yaml
-sed -i 's|INTERNET_APN|'$INTERNET_APN'|g' install/etc/open5gs/smf.yaml
 sed -i 's|IMS_APN|'$IMS_APN'|g' install/etc/open5gs/smf.yaml
-sed -i 's|OUR_APN|'$OUR_APN'|g' install/etc/open5gs/smf.yaml
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+
+N4=192.168
+N6=fd84:6aea:c36e:2b
+START=103
+
+
+ourapns=""
+
+for ap in ${APN[@]}
+do
+	if [[ $ap =~ "(" ]];
+	then 
+		continue
+	fi
+	if [[ $ap =~ ")" ]];
+	then 
+		continue
+	fi
+	HEXS=`printf '%x\n' "$START"`
+        ourapns="${ourapns}      - addr: 192.168.$START.1/24\n        apn: $ap\n        dev: ogstun$START\n      - addr: fd84:6aea:c3$HEXS:2b69::/64\n        apn: $ap\n        dev: ogstun$START\n"
+	START=$((START+1))
+done
+sed -i "s|APNS|$ourapns|" "install/etc/open5gs/smf.yaml"
