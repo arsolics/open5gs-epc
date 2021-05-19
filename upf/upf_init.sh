@@ -61,7 +61,7 @@ do
 		continue
 	fi
 	HEXS=`printf '%x\n' "$START"`
-	python3 /mnt/upf/tun_if.py --tun_ifname ogstun$START --ipv4_range 192.168.$START.0/24 --ipv6_range fd84:6aea:c3$HEXS:2b69::/64 --nat_rule 'no'
+	python3 /mnt/upf/tun_if.py --tun_ifname ogstun$START --ipv4_range 192.168.$START.0/24 --ipv6_range fd84:6aea:c3$HEXS:2b69::/64 --nat_rule 'yes'
         ourapns="${ourapns}      - addr: 192.168.$START.1/24\n        apn: $ap\n        dev: ogstun$START\n      - addr: fd84:6aea:c3$HEXS:2b69::/64\n        apn: $ap\n        dev: ogstun$START\n" 
 	START=$((START+1))
 done
