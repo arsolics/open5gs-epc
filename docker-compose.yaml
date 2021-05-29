@@ -562,29 +562,46 @@ services:
     networks:
       default:
         ipv4_address: ${PCSCF_IP}
-  openvpn-as:
-    build: 
-      context: ./openvpn/docker-openvpn/
-    hostname: "openvpn"
-    image: openvpn-as
-    container_name: openvpn-as
+        #openvpn-as:
+        #build: 
+        #context: ./openvpn/docker-openvpn/
+        #hostname: "openvpn"
+        #image: openvpn-as
+        #container_name: openvpn-as
+        #env_file:
+        #- .env
+        #cap_add:
+        #- NET_ADMIN
+        #environment:
+        #- TZ=Europe/London
+        #volumes:
+        #- ovpndata:/etc/openvpn
+        #ports:
+        ##- 943:943
+        ##- 9443:9443
+        #- 1194:1194/udp
+        #- 5544:22/tcp
+        #restart: unless-stopped
+        #networks:
+        #default:
+        #ipv4_address: ${OVPN_IP}
+        #
+  nginx:
+    hostname: "nginx"
+    build:
+            context: ./nginx/
+    image: nginx
+    container_name: nginx
     env_file:
       - .env
-    cap_add:
-      - NET_ADMIN
     environment:
       - TZ=Europe/London
-    volumes:
-      - ovpndata:/etc/openvpn
-    ports:
-            #- 943:943
-            #- 9443:9443
-      - 1194:1194/udp
-      - 5544:22/tcp
+    expose:
+      - 80/tcp
     restart: unless-stopped
     networks:
       default:
-        ipv4_address: ${OVPN_IP}
+        ipv4_address: ${NGINX_IP}
 
 networks:
   default:
