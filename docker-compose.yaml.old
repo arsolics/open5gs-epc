@@ -1,9 +1,22 @@
 version: '3'
 services:
+  docker_open5gs:
+    build: ./base 
+    image: docker_open5gs:latest
+    networks:
+      default:
+        ipv4_address: ${OPEN5GS_IP}
+  docker_kamailio:
+    build: ./ims_base
+    image: docker_kamailio
+    networks:
+      default:
+        ipv4_address: ${KAMAILIO_IP}
   mongo:
     restart: unless-stopped
     hostname: "mongo"
-    image: arsolics/open5gs:docker_open5gs_mongo
+    build: ./mongo
+    image: docker_open5gs_mongo
     container_name: mongo
     env_file:
       - .env
@@ -21,9 +34,11 @@ services:
   webui:
     restart: unless-stopped
     hostname: "webui"
-    image: arsolics/open5gs:docker_open5gs_webui
+    build: ./webui
+    image: docker_open5gs_webui
     container_name: webui
     depends_on:
+      - docker_open5gs
       - mongo
     env_file:
       - .env
@@ -39,9 +54,12 @@ services:
       default:
         ipv4_address: ${WEBUI_IP}
   nrf:
+    depends_on:
+      - docker_open5gs
     restart: unless-stopped
     hostname: "nrf"
-    image: arsolics/open5gs:docker_open5gs_nrf
+    build: ./nrf
+    image: docker_open5gs_nrf
     container_name: nrf
     env_file:
       - .env
@@ -58,7 +76,8 @@ services:
   ausf:
     restart: unless-stopped
     hostname: "ausf"
-    image: arsolics/open5gs:docker_open5gs_ausf
+    build: ./ausf
+    image: docker_open5gs_ausf
     depends_on:
       - nrf
     container_name: ausf
@@ -77,7 +96,8 @@ services:
   udr:
     restart: unless-stopped
     hostname: "udr"
-    image: arsolics/open5gs:docker_open5gs_udr
+    build: ./udr
+    image: docker_open5gs_udr
     depends_on:
       - nrf
       - mongo
@@ -97,7 +117,8 @@ services:
   udm:
     restart: unless-stopped
     hostname: "udm"
-    image: arsolics/open5gs:docker_open5gs_udm
+    build: ./udm
+    image: docker_open5gs_udm
     depends_on:
       - nrf
     container_name: udm
@@ -116,7 +137,8 @@ services:
   pcf:
     restart: unless-stopped
     hostname: "pcf"
-    image: arsolics/open5gs:docker_open5gs_pcf
+    build: ./pcf
+    image: docker_open5gs_pcf
     depends_on:
       - nrf
       - mongo
@@ -136,7 +158,8 @@ services:
   hss:
     restart: unless-stopped
     hostname: "hss"
-    image: arsolics/open5gs:docker_open5gs_hss
+    build: ./hss
+    image: docker_open5gs_hss
     container_name: hss
     env_file:
       - .env
@@ -146,6 +169,7 @@ services:
         #- /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     depends_on:
+      - docker_open5gs
       - mongo
     expose:
       - "3868/udp"
@@ -160,7 +184,8 @@ services:
   sgwc:
     restart: unless-stopped
     hostname: "sgwc"
-    image: arsolics/open5gs:docker_open5gs_sgwc
+    build: ./sgwc
+    image: docker_open5gs_sgwc
     depends_on:
       - nrf
       - smf
@@ -182,7 +207,8 @@ services:
   sgwu:
     restart: unless-stopped
     hostname: "sgwu"
-    image: arsolics/open5gs:docker_open5gs_sgwu
+    build: ./sgwu
+    image: docker_open5gs_sgwu
     depends_on:
       - nrf
       - smf
@@ -206,7 +232,8 @@ services:
   smf:
     restart: unless-stopped
     hostname: "smf"
-    image: arsolics/open5gs:docker_open5gs_smf
+    build: ./smf
+    image: docker_open5gs_smf
     depends_on:
       - nrf
     container_name: smf
@@ -233,7 +260,8 @@ services:
   upf:
     restart: unless-stopped
     hostname: "upf"
-    image: arsolics/open5gs:docker_open5gs_upf
+    build: ./upf
+    image: docker_open5gs_upf
     depends_on:
       - nrf
       - smf
@@ -263,7 +291,8 @@ services:
   amf:
     restart: unless-stopped
     hostname: "amf"
-    image: arsolics/open5gs:docker_open5gs_amf
+    build: ./amf
+    image: docker_open5gs_amf
     depends_on:
       - smf
       - upf
@@ -291,7 +320,8 @@ services:
   mme:
     restart: unless-stopped
     hostname: "mme"
-    image: arsolics/open5gs:docker_open5gs_mme
+    build: ./mme
+    image: docker_open5gs_mme
     depends_on:
       - hss
       - sgwc
@@ -323,12 +353,14 @@ services:
   pcrf:
     restart: unless-stopped
     hostname: "pcrf"
-    image: arsolics/open5gs:docker_open5gs_pcrf
+    build: ./pcrf
+    image: docker_open5gs_pcrf
     container_name: pcrf
     env_file:
       - .env
     depends_on:
       - mongo
+      - docker_open5gs
     volumes:
       - ./pcrf:/mnt/pcrf
       - ./log:/open5gs/install/var/log/open5gs
@@ -347,7 +379,8 @@ services:
   dns:
     restart: unless-stopped
     hostname: "dns"
-    image: arsolics/open5gs:docker_dns
+    build: ./dns
+    image: docker_dns
     container_name: dns
     env_file:
       - .env
@@ -363,7 +396,8 @@ services:
   rtpengine:
     restart: unless-stopped
     hostname: "rtpengine"
-    image: arsolics/open5gs:docker_rtpengine
+    build: ./rtpengine
+    image: docker_rtpengine
     container_name: rtpengine
     privileged: true
     env_file:
@@ -394,7 +428,8 @@ services:
   mysql:
     restart: unless-stopped
     hostname: "mysql"
-    image: arsolics/open5gs:docker_mysql
+    build: ./mysql
+    image: docker_mysql
     container_name: mysql
     env_file:
       - .env
@@ -410,7 +445,8 @@ services:
   fhoss:
     restart: unless-stopped
     hostname: "fhoss"
-    image: arsolics/open5gs:docker_fhoss
+    build: ./fhoss
+    image: docker_fhoss
     container_name: fhoss
     dns: ${DNS_IP}
     volumes:
@@ -433,7 +469,8 @@ services:
   icscf:
     restart: unless-stopped
     hostname: "icscf"
-    image: arsolics/open5gs:docker_icscf
+    build: ./icscf
+    image: docker_icscf
     container_name: icscf
     dns: ${DNS_IP}
     volumes:
@@ -443,6 +480,7 @@ services:
     env_file:
       - .env
     depends_on:
+      - docker_kamailio
       - dns
       - mysql
       - fhoss
@@ -457,7 +495,8 @@ services:
   scscf:
     restart: unless-stopped
     hostname: "scscf"
-    image: arsolics/open5gs:docker_scscf
+    build: ./scscf
+    image: docker_scscf
     container_name: scscf
     dns: ${DNS_IP}
     volumes:
@@ -467,6 +506,7 @@ services:
     env_file:
       - .env
     depends_on:
+      - docker_kamailio
       - dns
       - mysql
       - fhoss
@@ -481,7 +521,8 @@ services:
   pcscf:
     restart: unless-stopped
     hostname: "pcscf"
-    image: arsolics/open5gs:docker_pcscf
+    build: ./pcscf
+    image: docker_pcscf
     container_name: pcscf
     dns: ${DNS_IP}
     privileged: true
@@ -494,6 +535,7 @@ services:
     env_file:
       - .env
     depends_on:
+      - docker_kamailio
       - dns
       - mysql
       - rtpengine
@@ -524,7 +566,7 @@ services:
         #build: 
         #context: ./openvpn/docker-openvpn/
         #hostname: "openvpn"
-        #image: arsolics/open5gs:openvpn-as
+        #image: openvpn-as
         #container_name: openvpn-as
         #env_file:
         #- .env
